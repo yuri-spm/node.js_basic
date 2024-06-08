@@ -45,7 +45,7 @@ app.post('/register', function(req, res){
 
 app.get('/select/:id', function(req, res){
     let id = req.params.id;
-    fetch('http://localhost:3000/client'+id, {method: 'GET'})
+    fetch('http://localhost:3000/client/'+id, {method: 'GET'})
     .then(response => response.json())
     .then(response => res.render('select', {data: response}))
 });
