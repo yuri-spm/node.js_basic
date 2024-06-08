@@ -1,73 +1,71 @@
-//import modules
-const fetch = require('node-fetch');
-const {error} = require('console');
-const express = require('express');
-const port = 8080
-const { engine } = require('express-handlebars');
-const bodyParser = require('body-parser');
+// Importar módulos
+var express = require('express');
+var expressHandlebars = require('express-handlebars');
+var bodyParser = require('body-parser');
+var fetch = require('node-fetch');
 
-//app
-const app = express();
+// App
+var app = express();
 
-//body-parse
-app.use(bodyParser.urlencoded({extended: false}));
+// Body-parser
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-//parse application/json
-app.use(bodyParser.json());
-
-//template
-app.engine('handlebars', engine({ defaultLayout: 'home' })); 
+// Template
+app.engine('handlebars', expressHandlebars({defaultLayout : 'principal'}));
 app.set('view engine', 'handlebars');
 
-//static files
-
-app.use(express.static(__dirname + '/public'));
-
-//routers
+// Especificar arquivos estáticos
+app.use(express.static(__dirname + '/publico'));
+ 
+// Rotas
 app.get('/', function(req, res){
-    fetch('http://localhost:3000/client', {method: 'GET'})
-    .then(response => response.json())
-    .then(response => res.render('init', {data:response}))
+    fetch('http://localhost:3000/clientes', {method:'GET'})
+    .then(resposta => resposta.json())
+    .then(resposta => res.render('inicio', {dados:resposta}))
 });
 
-app.post('/register', function(req, res){
-    let name  = req.body.name;
+app.post('/cadastrar', function(req, res){
+    let nome = req.body.nome;
     let idade = req.body.idade;
-    let data = {'name': name, 'idade':idade};
-    fetch('http://localhost:3000/client', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers:{'Content-Type': 'application/json'}
 
-        })
-    .then(res.redirect('/'))
+    let dados = {'nome':nome, 'idade':idade};
+
+    fetch('http://localhost:3000/clientes', {
+        method:'POST',
+        body:JSON.stringify(dados),
+        headers:{'Content-Type':'application/json'}
+    })
+    .then(res.redirect('/'));
 });
 
-app.get('/select/:id', function(req, res){
+app.get('/selecionar/:id', function(req, res){
     let id = req.params.id;
-    fetch('http://localhost:3000/client/'+id, {method: 'GET'})
-    .then(response => response.json())
-    .then(response => res.render('select', {data: response}))
+
+    fetch('http://localhost:3000/clientes/'+id, {method:'GET'})
+    .then(resposta => resposta.json())
+    .then(resposta => res.render('selecionar', {dados:resposta}))
 });
 
-app.post('/edit', function(req, res){
-    let name  = req.body.name;
+app.post('/editar', function(req, res){
+    let nome = req.body.nome;
     let idade = req.body.idade;
-    let id    = req.body.id;
-    let data = {'name': name, 'idade':idade};
-    fetch('http://localhost:3000/client/'+id, {
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers:{'Content-Type': 'application/json'}
+    let id = req.body.id;
 
-        })
-    .then(res.redirect('/'))
+    fetch('http://localhost:3000/clientes/'+id, {
+        method:'PUT',
+        body:JSON.stringify({'nome':nome, 'idade':idade}),
+        headers:{'Content-Type':'application/json'}
+    })
+    .then(res.redirect('/'));
 });
 
-//server 
-app.listen(port, (error)=> {
-    if(error){
-        console.log('Erro ao executar');
-    }
-    console.log("Site no ar... vambora");
+app.get('/remover/:id', function(req, res){
+    let id = req.params.id;
+
+    fetch('http://localhost:3000/clientes/'+id, {method:'DELETE'})
+    .then(res.redirect('/'));
 });
+
+// Servidor
+app.listen(8080);
