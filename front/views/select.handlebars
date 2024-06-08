@@ -1,6 +1,7 @@
 {{!-- FORM --}}
-<form action="/register" method="POST">
+<form action="/edit" method="POST">
     <img src="../image/icon.png" alt="">
+    <input type="hidden" value={{data.id}} name="id" class="form-control">
     <input type="text" name="name"  value="{{data.name}}" placeholder="nome"class="form-control">
     <input type="text" name="idade" value="{{data.idade}}" placeholder="idade"  class="form-control">
     <input type="submit" class="btn btn-warning btnEditar" value="Editar" >
