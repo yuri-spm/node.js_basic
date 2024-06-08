@@ -1,3 +1,28 @@
-<h1>
-    Ola!!!
-</h1>
+{{!-- FORM --}}
+
+<form action="">
+    <img src="image/icon.png" alt="">
+    <input type="text" name="name" placeholder="nome" class="form-control">
+    <input type="text" name="idade" placeholder="idade"  class="form-control">
+    <input type="submit" class="btn btn-primary" value="Cadastar">
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Selecionar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{idade}}</td>
+            <td> <a href="selectionar/{{id}}">Selecionar</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
