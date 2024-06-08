@@ -50,7 +50,19 @@ app.get('/select/:id', function(req, res){
     .then(response => res.render('select', {data: response}))
 });
 
+app.post('/edit', function(req, res){
+    let name  = req.body.name;
+    let idade = req.body.idade;
+    let id    = req.body.id;
+    let data = {'name': name, 'idade':idade};
+    fetch('http://localhost:3000/client/'+id, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers:{'Content-Type': 'application/json'}
 
+        })
+    .then(res.redirect('/'))
+});
 
 //server 
 app.listen(port, (error)=> {
