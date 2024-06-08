@@ -1,9 +1,8 @@
 {{!-- FORM --}}
-
-<form action="">
+<form action="/register" method="POST">
     <img src="image/icon.png" alt="">
-    <input type="text" name="name" placeholder="nome" class="form-control">
-    <input type="text" name="idade" placeholder="idade"  class="form-control">
+    <input type="text" name="name"  value="{{name}}" class="form-control">
+    <input type="text" name="idade" value="{{idade}}" placeholder="idade"  class="form-control">
     <input type="submit" class="btn btn-primary" value="Cadastar">
 </form>
 
